@@ -9,4 +9,5 @@ if last > 5:
 elif last == 0:
     print("Last digit of %s is %s and is 0" % (number, last))
 else:
-    print("Last digit of %s is %s and is less than 6 and not 0" % (number, last))
+    print("Last digit of %s is %s and is less than 6 and not 0" % 
+            (number, last))
