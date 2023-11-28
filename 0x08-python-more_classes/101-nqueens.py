@@ -1,69 +1,53 @@
 #!/usr/bin/python3
-
 import sys
 
-def is_safe(board, row, col, N):
+def is_safe(board, row, col, n):
     for i in range(col):
         if board[row][i] == 1:
             return False
-
     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
-
-    for i, j in zip(range(row, N), range(col, -1, -1)):
+    for i, j in zip(range(row, n, 1), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
-
     return True
 
-def solve_n_queens(N):
-    board = [[0 for _ in range(N)] for _ in range(N)]
-    solutions = []
-    solve_util(board, 0, N, solutions)
-    if not solutions:
-        print("No solution exists")
-    else:
-        for solution in solutions:
-            print(solution)
+def solve_n_queens(n):
+    board = [[0 for _ in range(n)] for _ in range(n)]
+    if not solve_util(board, 0, n):
+        return False
+    return True
 
-def solve_util(board, col, N, solutions):
-    if col >= N:
-        sol = []
-        for i in range(N):
-            row = [i, board[i].index(1)]
-            sol.append(row)
-        solutions.append(sol)
+def solve_util(board, col, n):
+    if col >= n:
+        print_board(board)
         return True
-
-    for i in range(N):
-        if is_safe(board, i, col, N):
+    res = False
+    for i in range(n):
+        if is_safe(board, i, col, n):
             board[i][col] = 1
-
-            if solve_util(board, col + 1, N, solutions):
-                continue
-
+            res = solve_util(board, col + 1, n) or res
             board[i][col] = 0
+    return res
 
-    return False
+def print_board(board):
+    n = len(board)
+    for i in range(n):
+        for j in range(n):
+            print(board[i][j], end=" ")
+        print()
 
-def main():
+if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
-
     try:
         N = int(sys.argv[1])
         if N < 4:
             print("N must be at least 4")
             sys.exit(1)
-
         solve_n_queens(N)
-
     except ValueError:
         print("N must be a number")
         sys.exit(1)
-
-if __name__ == "__main__":
-    main()
-
