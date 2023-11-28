@@ -33,10 +33,12 @@ def solve_util(board, col, n):
 
 def print_board(board):
     n = len(board)
+    queens_pos = []
     for i in range(n):
         for j in range(n):
-            print(board[i][j], end=" ")
-        print()
+            if board[i][j] == 1:
+                queens_pos.append([i, j])
+    print(queens_pos)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
